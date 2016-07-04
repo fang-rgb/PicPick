@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="PicPick.View.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.galasoft.ch/ignore"
+             xmlns:vm="clr-namespace:PicPick.ViewModel"
+             d:DesignWidth="800" d:DesignHeight="600"
+        mc:Ignorable="d ignore">
+    <UserControl.DataContext>
+        <vm:MainViewModel></vm:MainViewModel>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu x:Name="menu" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
+            <MenuItem Header="文件">
+                <MenuItem Header="新建"></MenuItem>
+                <MenuItem Header="打开"></MenuItem>
+                <MenuItem Header="保存"></MenuItem>
+                <MenuItem Header="另存为"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="片源">
+                <MenuItem Header="添加文件"></MenuItem>
+                <MenuItem Header="添加文件夹" Command="{Binding OpenFolderCommand}"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="输出">
+                <MenuItem Header="目录">
+                    <MenuItem.ToolTip>
+                        <TextBlock>将选好的照片保存至指定目录下</TextBlock>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+                <MenuItem Header="导出" Command="{Binding ExportCommand}">
+                    <MenuItem.ToolTip>
+                        <TextBlock>将选好的所有照片的文件名保存至文件</TextBlock>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Margin="5,20,5,20" BorderBrush="Gray" BorderThickness="3 0">
+                <ListBox BorderBrush="Transparent" Background="Transparent" Margin="5"
+                         ItemsSource="{Binding SourceItems}" 
+                         SelectedItem="{Binding SelectedItem, Mode=TwoWay}" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding}" Width="120" Height="120"></Image>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+            <Border Grid.Column="1"  Margin="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Image Source="{Binding SelectedItem}"></Image>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                            <Button Content="待选" Command="{Binding CancelPickCommand}"></Button>
+                            <Button Content="选中" Command="{Binding PickCommand}"></Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+            <Border Grid.Column="2" Margin="5, 20,5,20" BorderBrush="Gray" BorderThickness=" 3 0">
+                <ListBox BorderBrush="Transparent" Background="Transparent" Margin="5"
+                         ItemsSource="{Binding PickedItems}"
+                         SelectedItem="{Binding SelectedItem, Mode=TwoWay}" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="120"></Image>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
